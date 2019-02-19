@@ -1,0 +1,4 @@
+库名:dict
+
+创建表:
+mysql> create table user(id int primary key auto_increment,name varchar(20),passwd varchar(20),history varchar(1000)default '')character set utf8;
