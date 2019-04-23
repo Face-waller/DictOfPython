@@ -64,11 +64,14 @@ class LookUpTheWord():
 
         # json decode: json str --> dict
         jsonLoads = json.loads(info)
+        res = ''
         try:
-            resu = str(jsonLoads['smartResult']['entries'])
+            resu = jsonLoads['smartResult']['entries']
         except:
             resu = jsonLoads['translateResult'][0][0]["tgt"]
         finally:
-            return resu
+            for i in resu:
+                res += i
+            return res
 
 
