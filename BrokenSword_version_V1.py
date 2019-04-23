@@ -525,6 +525,3 @@ class BrokenSword():
             key = pygame.key.get_pressed()
             if key[pygame.K_ESCAPE]:
                 sys.exit()
-
-
-
