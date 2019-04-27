@@ -8,15 +8,13 @@ import urllib.parse
  
  
 class LookUpTheWord():
+    def getSign(self,word,salt):
+            sign = ("fanyideskweb" + word + salt + "6x(ZHw]mwzX#u0V7@yfwK")
+            hashObj = hashlib.md5()
+            hashObj.update(sign.encode("utf-8"))
+            return hashObj.hexdigest()
 
     def do_word(self,word):
-
-        def getSign(word,salt):
-                    sign = ("fanyideskweb" + word + salt + "6x(ZHw]mwzX#u0V7@yfwK")
-                    hashObj = hashlib.md5()
-                    hashObj.update(sign.encode("utf-8"))
-                    return hashObj.hexdigest()
-                    
         # 做查询操作
         url = "http://fanyi.youdao.com/translate_o?smartresult=dict&smartresult=rule"
                     
@@ -30,7 +28,7 @@ class LookUpTheWord():
             "smartresult":"dict",
             "client":"fanyideskweb",
             "salt":saltInfo,
-            "sign":getSign(word,saltInfo),
+            "sign":self.getSign(word,saltInfo),
             "doctype":"json",
             "version":"2.1",
             "keyfrom":"fanyi.web",
@@ -73,5 +71,4 @@ class LookUpTheWord():
             for i in resu:
                 res += i
             return res
-
 
