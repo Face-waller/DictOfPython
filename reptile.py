@@ -72,3 +72,4 @@ class LookUpTheWord():
                 res += i
             return res
 
+
