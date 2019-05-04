@@ -1308,7 +1308,7 @@ def register(s):
 def find(s, user):
     ss = LookUpTheWord()
     ci = myshow.new.lineEdit.text()
-    myshow.new.lineEdit.clear()
+    # myshow.new.lineEdit.clear()
     if not ci:
         return '',''
     else:
@@ -1362,7 +1362,7 @@ def translate():
     ss = LookUpTheWord()
     article = myshow.new.TEXTEdit.toPlainText()
     #获取完清理文本框
-    myshow.new.TEXTEdit.clear()
+    # myshow.new.TEXTEdit.clear()
     if not article:
         return ''
     else:

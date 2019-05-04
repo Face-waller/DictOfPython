@@ -150,7 +150,7 @@ def do_history(c, db, data):
 # 主流程控制
 
 def main():
-    HOST = '0.0.0.0'
+    HOST = '192.168.81.1'
     PORT = 8000
     ADDR = (HOST, PORT)
 
