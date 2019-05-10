@@ -22,8 +22,10 @@ import os,sys,threading,time
 import multiprocessing as mg
 #导入游戏模块
 from BrokenSword_version_V1 import BrokenSword
-#导入爬虫模块
-from reptile import LookUpTheWord
+#导入有道爬虫模块
+from reptile_youdao import LookUpTheWord_youdao
+#导入百度爬虫模块
+from reptile_baidu import LookUpTheWord_baidu
 #导入本地检索词典模块
 from LocalFindci import LLocalfindci
 
@@ -254,14 +256,23 @@ class Ui_MainWindow(object):
         self.TextEdit_4.setGeometry(QtCore.QRect(120, 140, 200,300))
         self.TextEdit_4.setObjectName("TextEdit_4")
         self.TextEdit_3 = QtWidgets.QTextEdit(self.page)
-        self.TextEdit_3.setGeometry(QtCore.QRect(330, 140, 200, 300))
+        self.TextEdit_3.setGeometry(QtCore.QRect(330, 160, 200, 130))
         self.TextEdit_3.setObjectName("TextEdit_3")
+        self.TextEdit_9 = QtWidgets.QTextEdit(self.page)
+        self.TextEdit_9.setGeometry(QtCore.QRect(330, 310, 200, 130))
+        self.TextEdit_9.setObjectName("TextEdit_3")
         self.label_3 = QtWidgets.QLabel(self.page)
         self.label_3.setGeometry(QtCore.QRect(200, 110, 54, 12))
         self.label_3.setObjectName("label_3")
         self.label_4 = QtWidgets.QLabel(self.page)
         self.label_4.setGeometry(QtCore.QRect(400, 110, 54, 12))
         self.label_4.setObjectName("label_4")
+        self.label_19 = QtWidgets.QLabel(self.page)
+        self.label_19.setGeometry(QtCore.QRect(330, 145, 54, 12))
+        self.label_19.setObjectName("label_19")
+        self.label_20 = QtWidgets.QLabel(self.page)
+        self.label_20.setGeometry(QtCore.QRect(330, 295, 54, 12))
+        self.label_20.setObjectName("label_20")
         self.stackedWidget.addWidget(self.page)
         self.pushButton.setStyleSheet("QPushButton{background-image: url(%s);border:none}\
         QPushButton:hover{background-image: url(%s);border:none}\
@@ -278,6 +289,7 @@ class Ui_MainWindow(object):
         self.lineEdit.setStyleSheet("QLineEdit{background-image:url()}")
         self.TextEdit_4.setStyleSheet("QTextEdit{background-image:url()}")
         self.TextEdit_3.setStyleSheet("QTextEdit{background-image:url()}")
+        self.TextEdit_9.setStyleSheet("QTextEdit{background-image:url()}")
 
         #翻译页
         self.page_2 = QtWidgets.QWidget()
@@ -443,6 +455,8 @@ class Ui_MainWindow(object):
         self.label_3.setText(_translate("MainWindow", "本地释义"))
         self.label_4.setText(_translate("MainWindow", "网络释义"))
         self.label_6.setText(_translate("MainWindow", "有道词霸"))
+        self.label_19.setText(_translate("MainWindow", "有道翻译"))
+        self.label_20.setText(_translate("MainWindow", "百度翻译"))
         self.pushButton_2.setText(_translate("MainWindow", "翻译"))
 
 
@@ -1200,9 +1214,10 @@ def do_register(s):
 
 #一级词典界面按钮槽函数
 def do_find(s,user):
-    localresulttt,olderrr = find(s, user)
+    localresulttt,olderrr,olderrr2 = find(s, user)
     myshow.new.TextEdit_4.setText(localresulttt)
     myshow.new.TextEdit_3.setText(olderrr)
+    myshow.new.TextEdit_9.setText(olderrr2)
 
 
 #一级历史记录界面按钮槽函数
@@ -1306,7 +1321,8 @@ def register(s):
 
 #查词(服务器用来记录爬虫查词记录)
 def find(s, user):
-    ss = LookUpTheWord()
+    ss = LookUpTheWord_youdao()
+    aa = LookUpTheWord_baidu()
     ci = myshow.new.lineEdit.text()
     # myshow.new.lineEdit.clear()
     if not ci:
@@ -1315,8 +1331,10 @@ def find(s, user):
         #本地字典查询
         localresult = LLocalfindci(ci)
         try:
-            #本地爬虫查询
+            #youdao爬虫查询
             older = ss.do_word(ci)
+            #baidu爬虫查询
+            older2 = aa.do_word(ci)
         except:
             older = "< 无网络连接，请检查网络! >"
         # print(older)
@@ -1326,7 +1344,7 @@ def find(s, user):
             msg = 'Q {} {}'.format(user,ci)
             s.send(msg.encode())
             data = s.recv(128).decode()
-        return localresult,older
+        return localresult,older,older2
 
 
 # 查询历史(连接服务器)
@@ -1359,7 +1377,7 @@ def history(s, user):
 
 #翻译(本地通过网络获取结果)
 def translate():
-    ss = LookUpTheWord()
+    ss = LookUpTheWord_youdao()
     article = myshow.new.TEXTEdit.toPlainText()
     #获取完清理文本框
     # myshow.new.TEXTEdit.clear()

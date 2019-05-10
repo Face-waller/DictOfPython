@@ -7,7 +7,7 @@ import urllib.parse
  
  
  
-class LookUpTheWord():
+class LookUpTheWord_youdao():
     def getSign(self,word,salt):
             sign = ("fanyideskweb" + word + salt + "6x(ZHw]mwzX#u0V7@yfwK")
             hashObj = hashlib.md5()
